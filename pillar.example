@@ -1,0 +1,5 @@
+wp:
+  dbname: wordpress
+  dbuser: wordpressuser
+  dbpass: password
+  dbhost: localhost
