@@ -18,6 +18,9 @@ terminal-tools:
       - python-software-properties
       - finger
       - lvm2
+      - fortunes
+      - fortunes-debian-hints
+      - fortunes-ubuntu-server
 {% if grains['osrelease'] == '14.04' %}
       - glances
 {% endif %}
