@@ -30,25 +30,22 @@ wp_config:
     - name: /tmp/wordpress/wp-config.php
 
 wp_set_dbname:
-  file.sed:
+  file.replace:
     - name: /tmp/wordpress/wp-config.php
-    - before: 'database_name_here'
-    - after: '{{ pillar['wp']['dbname'] }}'
-    - limit: 'DB_NAME'
+    - pattern: 'database_name_here'
+    - repl: '{{ pillar['wp']['dbname'] }}'
 
 wp_set_dbuser:
-  file.sed:
+  file.replace:
     - name: /tmp/wordpress/wp-config.php
-    - before: 'username_here'
-    - after: '{{ pillar['wp']['dbuser'] }}'
-    - limit: 'DB_USER'
+    - pattern: 'username_here'
+    - repl: '{{ pillar['wp']['dbuser'] }}'
 
 wp_set_dbpwd:
-  file.sed:
+  file.replace:
     - name: /tmp/wordpress/wp-config.php
-    - before: 'password_here'
-    - after: '{{ pillar['wp']['dbpass'] }}'
-    - limit: 'DB_PASSWORD'
+    - pattern: 'password_here'
+    - repl: '{{ pillar['wp']['dbpass'] }}'
 
 wp_copy:
   cmd.run:
