@@ -9,18 +9,24 @@ a2ensite default-ssl:
   cmd.run
 
 apache_token_prod:
-  file.sed:
+  file.replace:
+{% if grains['osrelease'] == '12.04' %}
     - name: '/etc/apache2/conf.d/security'
-    - before: 'OS'
-    - after: 'Prod'
-    - limit: '^ServerTokens'
+{% else %}
+    - name: '/etc/apache2/conf-enabled/security.conf'
+{% endif %}
+    - pattern: '^ServerTokens\s\w+'
+    - repl: 'ServerTokens Prod'
 
 apache_signature_off:
-  file.sed:
+  file.replace:
+{% if grains['osrelease'] == '12.04' %}
     - name: '/etc/apache2/conf.d/security'
-    - before: 'On'
-    - after: 'Off'
-    - limit: '^ServerSignature'
+{% else %}
+    - name: '/etc/apache2/conf-enabled/security.conf'
+{% endif %}
+    - pattern: '^ServerSignature\sOn'
+    - repl: 'ServerSignature Off'
 
 apache-restart:
   cmd.run:
