@@ -1,12 +1,22 @@
 clear-www:
   file.absent:
+{% if grains['osrelease'] == '16.04' %}
+    - name: /var/www/html/index.html
+{% else %}
     - name: /var/www/index.html
+{% endif %}
+
 
 get_wordpress:
   cmd.run:
     - name: 'wget -O latest.tar.gz http://wordpress.org/latest.tar.gz && tar xzf latest.tar.gz'
     - cwd: /tmp/
+{% if grains['osrelease'] == '16.04' %}
+    - unless: cat /var/www/html/wp-config.php
+{% else %}
     - unless: cat /var/www/wp-config.php
+{% endif %}
+
 
 wp_user:
   mysql_user.present:
@@ -49,6 +59,10 @@ wp_set_dbpwd:
 
 wp_copy:
   cmd.run:
+{% if grains['osrelease'] == '16.04' %}
+    - name: 'cp -r /tmp/wordpress/* /var/www/html/'
+    - unless: cat /var/www/html/wp-config.php
+{% else %}
     - name: 'cp -r /tmp/wordpress/* /var/www/'
     - unless: cat /var/www/wp-config.php
-
+{% endif %}
