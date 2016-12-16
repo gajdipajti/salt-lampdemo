@@ -8,6 +8,15 @@ a2enmod ssl:
 a2ensite default-ssl:
   cmd.run
 
+a2dismod mpm_event:
+  cmd.run
+
+a2enmod mpm_prefork:
+  cmd.run
+
+a2enmod php7.0:
+  cmd.run
+
 apache_token_prod:
   file.replace:
 {% if grains['osrelease'] == '12.04' %}
